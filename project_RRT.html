@@ -1,0 +1,141 @@
+<!DOCTYPE HTML>
+<!--
+	Prologue by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title>RRT - Ishaan Malhotra</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="assets/css/main.css" />
+		<!-- Include Mermaid.js for flowchart -->
+		<script type="module" src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs"></script>
+	</head>
+	<body class="is-preload">
+
+		<!-- Header -->
+		<div id="header">
+			<div class="top">
+				<!-- Logo -->
+				<div id="logo">
+					<span class="image avatar48"><img src="images/avatar.png" alt="Avatar" /></span>
+					<h1 id="title">Ishaan Malhotra</h1>
+					<p>Autonomous Robotics <br> Software Engineer</p>
+				</div>
+
+				<!-- Nav -->
+				<nav id="nav">
+					<ul>
+						<li><a href="index.html" id="home-link"><span class="icon solid fa-home">Home</span></a></li>
+						<li><a href="index.html#portfolio" id="portfolio-link"><span class="icon solid fa-th">Portfolio</span></a></li>
+						<li><a href="index.html#about" id="about-link"><span class="icon solid fa-user">About Me</span></a></li>
+					</ul>
+				</nav>
+			</div>
+
+			<div class="bottom">
+				<!-- Social Icons -->
+				<ul class="icons">
+					<li><a href="https://github.com/imalhotra15" class="icon brands fa-github"><span class="label">Github</span></a></li>
+					<li><a href="https://www.linkedin.com/in/ishaanmalhotra15/" class="icon brands fa-linkedin"><span class="label">LinkedIn</span></a></li>
+					<li><a href="mailto:your.email@example.com" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+				</ul>
+			</div>
+		</div>
+
+		<!-- Main -->
+		<div id="main">
+			<!-- Project Introduction -->
+			<section class="one dark cover">
+				<div class="container">
+					<header>
+						<h2 class="alt">Rapidly Exploring Random Trees (RRT)</h2>
+						<p>Path Planning and Motion Planning in Robotics</p>
+					</header>
+					<a href="images/RRT_thumbnail.png" class="image featured"><img src="images/RRT_thumbnail.png" alt="RRT Thumbnail" /></a>
+				</div>
+			</section>
+
+			<!-- Project Details -->
+			<section class="two">
+				<div class="container">
+					<header>
+						<h2>Introduction</h2>
+					</header>
+					<p>
+						The Rapidly-exploring Random Tree (RRT) algorithm is a path planning and motion planning technique primarily used in robotics. It operates by iteratively building a tree structure in the configuration space of a robot or an agent, gradually exploring the search space towards a predefined goal.
+					</p>
+					<p>
+						RRT is particularly effective in high-dimensional and complex configuration spaces and is known for its probabilistic completeness, meaning it will find a solution if one exists given enough iterations.
+					</p>
+					<p>
+						Its flexibility and ability to handle dynamic environments make it a popular choice in robotics for tasks such as motion planning, navigation, and obstacle avoidance.
+					</p>
+
+					<header>
+						<h2>The Algorithm</h2>
+					</header>
+					
+					<p>
+						This flowchart illustrates the process of iteratively expanding nodes, searching for a feasible path from the start to the goal while avoiding obstacles in the map. It maintains a loop until the goal is found or deemed unreachable within the specified constraints.
+					</p>
+
+					<!-- Flowchart -->
+					<div class="mermaid">
+						flowchart TD;
+						Start(Start) --> Init["start = (start_x , start_y)
+									goal = (goal_x , goal_y)
+									nodes = []
+									path = []
+									goalFound = False"];
+						Init --> C["nodes.append(start)"] ;
+						C --> loop_start{goalFound?}
+						loop_start --No --> First_check{"isobstacle_inbetween(nodes[-1] , goal) 
+								&&
+								distance_between(nodes[-1] , goal) < threshold"} ;
+						First_check -- No --> random_point["random_point = make_random_point()"]
+						random_point --> nearest_node["nearest_node = get_nearest_node(nodes, random_point)"]
+						nearest_node --> Second_check{"isobstacle_inbetween(nearest_node , random_point)"} ;
+						Second_check -- No --> add_node["Make a new node at some threshold
+														distance away from the nearest node,
+														in the direction of the random_point"] ;
+						add_node --> update["nodes.append(new_node)
+											parents.append(nearest_node)"]
+						update --> loop_start
+						Second_check -- Yes --> loop_start
+						First_check -- Yes -->  update2["parent.append(nodes[-1])
+														nodes.append(goal)"]
+						update2 --> goal("goalFound = True")
+						goal --> loop_start
+						loop_start -- Yes --> path["Get Path"]
+
+						path --> J{Start reached?}
+						J -- No --> K[Backtrack & Insert into path]
+						K --> J
+						J -- Yes --> L(Return Path)
+
+						style goal fill:#b7e1cd,stroke:#333,stroke-width:2px;
+						style goal stroke:#000,stroke-width:2px,color:#000;
+					</div>
+
+					<p>
+						<h2> Demo</h2>
+						<video width="600" controls>
+							<source src="images/RRT_recording2 (1).mp4" type="video/mp4">
+							Your browser does not support the video tag.
+						  </video>
+					</p>
+
+					<header>
+						<h2>Lessons Learned</h2>
+							<h3>Thorough Testing of Small Functions </h3>
+								<p>
+									Checking and rechecking the smaller tools, like creating random points, turned out to be critical. A key realization hit when weird issues cropped up due to how OpenCV indexes pixels. When drawing shapes like circles (<code>cv2.circle</code>), it takes coordinates as 'x, y', but when looking at specific pixels in the image, it reverses this order to 'y, x'. This reversal caused tricky bugs during implementation.
+								</p>
+
+							<h3>Separating Math and Pictures</h3>
+								<p>
+									Utilizing a pristine copy of the input map for computations while employing a separate image for visual representation (e.g., with <code>cv2.circle</code> or <code>cv2.line</code>) was crucial. Failure to segregate these datasets resulted in visual elements being interpreted as obstacles during computation, impacting algorithm performance.
+								</p>
