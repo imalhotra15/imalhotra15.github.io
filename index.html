@@ -40,9 +40,9 @@
 
 					<!-- Social Icons -->
 						<ul class="icons">
-							<li><a href="https://github.com/imalhotra15" class="icon brands fa-github"><span class="label">Github</span></a></li>
-							<li><a href="https://www.linkedin.com/in/ishaanmalhotra15/" class="icon brands fa-linkedin"><span class="label">Dribbble</span></a></li>
-							<li><a href="#" class="icon solid fa-envelope"><span class="label">Email</span></a></li>
+							<li><a href="https://github.com/imalhotra15" class="icon brands fa-github" target="_blank"><span class="label">Github</span></a></li>
+							<li><a href="https://www.linkedin.com/in/ishaanmalhotra15/" class="icon brands fa-linkedin" target="_blank"><span class="label">Dribbble</span></a></li>
+							<li><a href="Resume_Ishaan_09012024.pdf" class="icon solid fa-envelope" target="_blank"><span class="label">Resume</span></a></li>
 						</ul>
 
 				</div>
@@ -53,20 +53,28 @@
 			<div id="main">
 
 				<!-- Intro -->
-					<section id="top" class="one dark cover">
-						<div class="container">
-
-							<header>
-								<h2 class="alt">Hi! I'm <strong>Ishaan</strong></h2>
-								<p>Engineering Autonomy into mobile robots.</p>
-							</header>
-
-							<footer>
-								<a href="#portfolio" class="button scrolly">Portfolio</a>
-							</footer>
-
+				<section id="top" class="one dark cover">
+					<div class="container">
+						<div class="row">
+							<!-- Photo Column -->
+							<div class="6u 12u(mobile)">
+								<div class="photo">
+									<img src="images/linkedin_dp.png" alt="Ishaan Malhotra" style="width: 100%; max-width: 300px; height: auto;" />
+								</div>
+							</div>
+							<!-- Text Column -->
+							<div class="6u 12u(mobile)">
+								<header>
+									<h2 class="alt">Hi! I'm <strong>Ishaan</strong></h2>
+									<p>Engineering Autonomy into mobile robots.</p>
+								</header>
+								<footer>
+									<a href="#portfolio" class="button scrolly">Portfolio</a>
+								</footer>
+							</div>
 						</div>
-					</section>
+					</div>
+				</section>
 
 				<!-- Portfolio -->
 					<section id="portfolio" class="two">
@@ -82,6 +90,21 @@
 								commitment to innovation in automobiles and autonomy.</p>
 
 							<div class="row">
+								<div class="col-4 col-12-mobile">
+									<article class="item">
+										<a href="project_roadSegmentation.html" class="image fit"><img src="images/road_segmentation.png" alt="" /></a>
+										<header>
+											<h3>Road Image Segmentation on KITTI Dataset</h3>
+										</header>
+									</article>
+									<div class="col-4 col-12-mobile"></div>
+									<article class="item">
+										<a href="#" class="image fit"><img src="images/f1tenth.png" alt="" /></a>
+										<header>
+											<h3>Autonomous Racer- F1Tenth</h3>
+										</header>
+									</article>
+								</div>
 								<div class="col-4 col-12-mobile">
 									<article class="item">
 										<a href="project_RRT.html" class="image fit"><img src="images/RRT_thumbnail.png" alt="" /></a>
@@ -110,44 +133,37 @@
 										</header>
 									</article>
 								</div>
-								<div class="col-4 col-12-mobile">
-									<article class="item">
-										<a href="project_roadSegmentation.html" class="image fit"><img src="images/road_segmentation.png" alt="" /></a>
-										<header>
-											<h3>Road Image Segmentation on KITTI Dataset</h3>
-										</header>
-									</article>
-									<article class="item">
-										<a href="#" class="image fit"><img src="images/f1tenth.png" alt="" /></a>
-										<header>
-											<h3>Autonomous Racer- F1Tenth</h3>
-										</header>
-									</article>
-								</div>
+								
 							</div>
 
 						</div>
 					</section>
 
 				<!-- About Me -->
-					<section id="about" class="three">
-						<div class="container">
-
-							<header>
-								<h2>About Me</h2>
-							</header>
-
-							<a href="#" class="image featured"><img src="images/pic08.jpg" alt="" /></a>
-
-							<p>Tincidunt eu elit diam magnis pretium accumsan etiam id urna. Ridiculus
-							ultricies curae quis et rhoncus velit. Lobortis elementum aliquet nec vitae
-							laoreet eget cubilia quam non etiam odio tincidunt montes. Elementum sem
-							parturient nulla quam placerat viverra mauris non cum elit tempus ullamcorper
-							dolor. Libero rutrum ut lacinia donec curae mus vel quisque sociis nec
-							ornare iaculis.</p>
-
+				<section id="about" class="three">
+					<div class="container">
+						<header>
+							<h2>About Me</h2>
+						</header>
+						<!-- Flexbox Layout for Image and Text -->
+						<div style="display: flex; align-items: flex-start; gap: 20px;">
+							<!-- Image on the Left -->
+							<a href="#" class="image featured" style="flex: 0 0 auto; max-width: 300px; margin-right: 20px;">
+								<img src="images/danfoss_ishaan.jpg" alt="" style="width: 100%; height: auto;" />
+							</a>
+							<!-- Text on the Right -->
+							<div style="flex: 1; max-width: calc(100% - 320px);">
+								<p>
+									Hello! I’m currently pursuing a Master of Science in Robotics at the University at Buffalo, bringing hands-on experience from internships and research roles. My recent work with Danfoss and in our university’s research lab has deepened my expertise in autonomous systems, from advanced simulations to real-time robotics applications.
+									I specialize in integrating complex systems for both on-road and off-highway projects, leveraging technologies like path planning, visual odometry, and deep learning. My background also includes leading data science initiatives in the electric vehicles space, where I optimized performance and managed engineering projects. This unique intersection of robotics and data science fuels my passion for developing robust autonomous solutions.	
+									With a strong foundation in Python, ROS, PyTorch, and a deep understanding of perception and planning algorithms, I am excited about the opportunity to contribute to your innovative team and drive advancements in autonomous systems.								
+									Thank you for considering my application. I look forward to discussing how my skills align with your team's goals.
+								</p>
+							</div>
 						</div>
-					</section>
+					</div>
+				</section>
+				
 
 				
 
