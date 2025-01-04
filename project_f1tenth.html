@@ -6,7 +6,7 @@
 -->
 <html>
 	<head>
-		<title>Road Segmentation on KITTI Dataset</title>
+		<title>Autonomous Racer- F1Tenth</title>
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
 		<link rel="stylesheet" href="assets/css/main.css" />
@@ -51,65 +51,136 @@
 			<section class="one dark cover">
 				<div class="container">
 					<header>
-						<h2 class="alt">Road Segmentation for Autonomous Driving</h2>
-						<p>Perception in autonomy- segmentation</p>
+						<h2 class="alt">Autonomous Racer- F1Tenth</h2>
+						<p>Perception Planning and Control for Autonomous Vehicle</p>
 					</header>
-					<a href="images/road_segmentation.png" class="image featured"><img src="images/road_segmentation.png" alt="RRT Thumbnail" /></a>
+					<a href="images/project_f1tenth/f1tenth.png" class="image featured"><img src="images/project_f1tenth/f1tenth.png" alt="RRT Thumbnail" /></a>
 				</div>
 			</section>
 
 			<!-- Project Details -->
 			<section class="two">
 				<div class="container">
-					<header>
-						<h2>Introduction</h2>
-					</header>
-					<p>
-						This project focuses on segmenting roads from aerial images using a VGG-FCN8 neural network. The primary goal is to accurately identify road pixels to aid in autonomous driving and GIS applications.
-					</p>
 					
 					<header>
-						<h2>Model Architecture</h2>
+						<h2>Links</h2>
 					</header>
-					
+					<ul>
+						<li><a href="https://github.com/imalhotra15/Autonomous-Racer-F1Tenth">Github Repository</a></li>
+					</ul>
+
+					<h2>Introduction</h2>
+					<p>This is an autonomous racing algorithm designed to navigate a vehicle through a predefined track using various sensors and path planning techniques. The project leverages ROS (Robot Operating System) to handle communication between the vehicle and its sensors, including LiDAR, IMU, and odometry. The primary goal of the project is to achieve efficient and collision-free navigation using techniques such as Pure Pursuit for path following and RRT (Rapidly-exploring Random Trees) for obstacle avoidance.</p>
+				
+					<h3>A Typical F1Tenth Car:</h3>
+					<img src="https://github.com/user-attachments/assets/f000aa74-1016-4e04-acd8-823b54b27738" alt="F1Tenth Car">
+				
+					<h3>Simulator View:</h3>
+					<img src="https://github.com/user-attachments/assets/4659a302-2321-46ab-a711-8adb3dba2470" alt="Simulator View">
+				
+					<h2>Approach</h2>
+					<p>This algorithm follows a hybrid approach combining two main techniques:</p>
+					<ol>
+						<li><strong>Pure Pursuit:</strong> This method is used for following the track's centerline. The algorithm computes the necessary steering angle to keep the vehicle on the desired path.</li>
+						<li><strong>RRT (Rapidly-exploring Random Trees):</strong> When an obstacle is detected on the track, the algorithm switches to RRT-based path planning to navigate around the obstacle and return to the track.</li>
+					</ol>
+				
+					<h3>RRT Demonstration:</h3>
+					<img src="https://github.com/user-attachments/assets/42d5b070-d89a-464a-b29f-73c1e71876f1" alt="RRT Demonstration">
+				
+					<h3>Pure Pursuit:</h3>
+					<img src="https://github.com/user-attachments/assets/4180c05c-1681-4399-8d67-152fdef04d5a" alt="Pure Pursuit">
+				
+					<p>Reference: <a href="https://thomasfermi.github.io/Algorithms-for-Automated-Driving/Control/PurePursuit.html">Pure Pursuit</a></p>
+				
+					<h2>Algorithm Steps</h2>
+				
+					<h3>1. Sensor Data Collection</h3>
+					<ul>
+						<li><strong>LiDAR Data:</strong> Collect distance measurements from surrounding objects.</li>
+						<li><strong>IMU Data:</strong> Gather orientation and angular velocity data.</li>
+						<li><strong>Odometry Data:</strong> Track the vehicle's position and velocity.</li>
+					</ul>
+				
+					<h3>2. Data Processing</h3>
+					<ul>
+						<li><strong>Polar to Cartesian Conversion:</strong> Convert LiDAR data from polar coordinates (angle and distance) to Cartesian coordinates (x, y).</li>
+						<li><strong>Occupancy Grid Creation:</strong> Create a 2D occupancy grid from the Cartesian coordinates to represent the environment around the vehicle.
+							<ul>
+								<li><strong>Object Dilation:</strong> Inflate the detected obstacles in the grid to account for the vehicle's width.</li>
+								<li><strong>White Halo Creation:</strong> Add a white halo around the vehicle to prevent it from getting trapped inside obstacles.</li>
+							</ul>
+						</li>
+					</ul>
+				
+					<h3>3. Path Planning</h3>
+					<ul>
+						<li><strong>Initial Lookahead on Centerline:</strong> Continuously check ahead along the track's centerline to determine if there are any obstacles within the lookahead distance.</li>
+						<li><strong>Path Planning Decision:</strong>
+							<ul>
+								<li><strong>No Obstacle Detected:</strong> Perform Pure Pursuit on the centerline.</li>
+								<li><strong>Obstacle Detected:</strong>
+									<ul>
+										<li><strong>Determine Target Point:</strong> Identify a target point on the centerline that lies beyond the detected obstacle.</li>
+										<li><strong>Path Generation with RRT:</strong>
+											<ul>
+												<li>Generate multiple paths using RRT from the vehicle's current position to the target point.</li>
+												<li>Each path should be checked to ensure it does not collide with any obstacles in the occupancy grid.</li>
+											</ul>
+										</li>
+									</ul>
+								</li>
+							</ul>
+						</li>
+					</ul>
+				
+					<h3>4. Path Selection</h3>
+					<ul>
+						<li><strong>Evaluate Paths:</strong>
+							<ul>
+								<li><strong>Smoothness Criterion:</strong> Calculate the cumulative angles of each generated path to determine its smoothness.</li>
+								<li><strong>Length Criterion:</strong> Measure the length of each path.</li>
+							</ul>
+						</li>
+						<li><strong>Optimal Path Selection:</strong> Choose the path that is both the smoothest (with the least cumulative angles) and the shortest.</li>
+					</ul>
+				
+					<h3>5. Control Commands</h3>
+					<ul>
+						<li><strong>Pure Pursuit Control:</strong>
+							<ul>
+								<li><strong>Lookahead Distance:</strong> Determine the lookahead distance based on the vehicle's speed.</li>
+								<li><strong>Target Point Identification:</strong> Identify the point on the desired path at the lookahead distance.</li>
+								<li><strong>Steering Angle Calculation:</strong> Compute the required steering angle to reach the target point.</li>
+							</ul>
+						</li>
+						<li><strong>Dynamic Speed Adjustment:</strong> Adjust the vehicle's speed based on the steering angle and obstacle proximity. Use an exponential function for speed adjustment to ensure smooth control.</li>
+					</ul>
+				
+					<p>RRT Repo: <a href="https://github.com/imalhotra15/RRT">https://github.com/imalhotra15/RRT</a></p>
+				
+					<h2>Tips and Tricks</h2>
+					<ul>
+						<li><strong>Object Dilation:</strong> Expanding obstacles in the occupancy grid ensures the vehicle maintains a safe distance from obstacles.</li>
+						<li><strong>White Halo:</strong> Adding a white halo around the vehicle prevents it from getting trapped inside obstacles, aiding the RRT algorithm in finding valid paths.</li>
+						<li><strong>Speed Control:</strong> Adjusting the vehicle's speed based on the steering angle and obstacle proximity improves stability and safety.</li>
+					</ul>
+				
+					<h2>Demo</h2>
 					<p>
-						The VGG-FCN8 model is a fully convolutional network based on the VGG16 architecture. It adapts the VGG16 network for segmentation tasks by adding upsampling layers to produce pixel-wise predictions.
+
+						<div class="video-container">
+							<iframe src="https://github.com/user-attachments/assets/c90e4fac-1f8d-4d26-b0c3-f60477678dfb" frameborder="0"></iframe>
+						</div>
 					</p>
-                    <p> <img src="images/fcn8.png" alt="Description" width="400"> </p>
-                    <h3>Encoder and Decoder Explanation</h3>
-                        <p>The encoder part of the VGG-FCN8 model uses the VGG16 architecture pre-trained on ImageNet. It consists of 5 blocks of convolutional layers followed by max-pooling layers. The encoder is divided into three segments to facilitate skip connections</p>
-                        <p>The decoder part of the VGG-FCN8 model upsamples the feature maps to the original image size using transposed convolutions. The decoder also incorporates skip connections from the encoder to retain spatial information.</p>
-                        
-					<h3>Model Modifications</h3>
-                        <p> The VGG-FCN8 model was modified to accommodate binary road segmentation. The modifications include:
-                            <ul>
-                            <li>Using only one output channel (binary classification) instead of 21 (original FCN8 used for PASCAL VOC)</li>
-                            <li>Adding transposed convolution layers to upsample the feature maps back to the original image size.</li>
-                            <li>Incorporating skip connections to combine lower-level and higher-level features. </li>
-                            </ul>   
-                        </p>
-					<p>
-
-                    <h2>Results</h2>
-                        <h3>Training Loss Plots</h3>
-                        <p> <img src="images/road_segmentation_training.png" alt="Description"> </p>
-
-
-
-						<h3> Training Visualized</h3>
-						<video width="600" controls>
-							<source src="images/road_seg_training.mp4" type="video/mp4">
-							Your browser does not support the video tag.
-						  </video>
-                          <video width="600" controls>
-							<source src="images/road_seg_training2.mp4" type="video/mp4">
-							Your browser does not support the video tag.
-						  </video>
-					</p>
-
-                    <h2>Video Demo</h2>
-                        <video width="600" controls>
-                            <source src="images/road_seg_output.mp4" type="video/mp4">
-                            Your browser does not support the video tag.
-                        </video>
-                        
+					<p>The video demo showcases the algorithm in action, demonstrating its ability to navigate a track, detect and avoid obstacles, and seamlessly switch between Pure Pursuit and RRT for efficient path planning.</p>
+				
+					<h2>Conclusion</h2>
+					<p>This project demonstrates a robust approach to autonomous racing using a combination of Pure Pursuit and RRT algorithms. By integrating sensor data, implementing advanced data processing techniques, and employing strategic tips and tricks, the algorithm achieves efficient and collision-free navigation. This project serves as a valuable foundation for further advancements in autonomous vehicle navigation and control.</p>
+				
+					<h2>Notes</h2>
+					<p>This was done as a part of the coursework of CSE 568 at the University at Buffalo. The source code is not available publicly to avoid academic integrity violations. Please feel free to contact the author if you wish access to the source code.</p>
+				
+					<h2>Acknowledgements</h2>
+					<p><a href="https://github.com/SmitRajguru/f1tenth_simulator">F1Tenth Simulator developed by Smit on Unity</a></p>
+				
