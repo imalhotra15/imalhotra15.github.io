@@ -2631,3 +2631,8 @@ input, select, textarea {
 				}
 
 	}
+
+
+	.two .container {
+		text-align: left;
+	}
